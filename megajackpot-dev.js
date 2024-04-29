@@ -1,56 +1,43 @@
-let optinImage;
-let optinBar;
-let optinButton;
-let optinButtonImage;
-let optinPanel;
-let optButton;
-let main;
-let miniValueLabel;
-let minorValueLabel;
-let majorValueLabel;
-let megaValueLabel;
-
+let elements = {};
 let optin = false;
+
 document.addEventListener("DOMContentLoaded", () => 
 {
-    optinImage = document.getElementById("optin-image");
-    optinBar = document.getElementById("optin-bar");
-    optinButton = document.getElementById("optin");
-    optinButtonImage = document.getElementById("optin-button-image");
-    optinPanel = document.getElementById("optin-panel");
-    optButton = document.getElementById("opt-button");
-    main = document.getElementById("main");
-    miniValueLabel = document.getElementById("mini-value");
-    minorValueLabel = document.getElementById("minor-value");
-    majorValueLabel = document.getElementById("major-value");
-    megaValueLabel = document.getElementById("mega-value");
+    elements = 
+    {
+        optinImage: document.getElementById("optin-image"),
+        optinBar: document.getElementById("optin-bar"),
+        optinButton: document.getElementById("optin"),
+        optinButtonImage: document.getElementById("optin-button-image"),
+        optinPanel: document.getElementById("optin-panel"),
+        optButton: document.getElementById("opt-button"),
+        main: document.getElementById("main"),
+        miniValueLabel: document.getElementById("mini-value"),
+        minorValueLabel: document.getElementById("minor-value"),
+        majorValueLabel: document.getElementById("major-value"),
+        megaValueLabel: document.getElementById("mega-value")
+    };
 
     let toggle = false;
-    optinButton.addEventListener("click", () => 
+    elements.optinButton.addEventListener("click", () => 
     {
         toggle = !toggle;
-        if (toggle) 
-        {
-            main.style.filter = "brightness(75%)";
-            optinPanel.style.bottom = "0px";
-            return;
-        }
-        main.style.filter = "none";
-        optinPanel.style.bottom = "-500px";
+        elements.main.style.filter = toggle ? "brightness(75%)" : "none";
+        elements.optinPanel.style.bottom = toggle ? "0px" : "-500px";
     });
 
-    optButton.addEventListener("click", async () => 
+    elements.optButton.addEventListener("click", async () => 
     {
         const url = megajackpotConfig.endpoint + (optin ? "/api/optout?operator=" : "/api/optin?operator=") + megajackpotConfig.operator + "&player=" + megajackpotConfig.player + "&hash=" + megajackpotConfig.hash;
         try 
         {
             const response = await fetch(url);
-            if(response.status === 200)
+            if (response.status === 200) 
             {
                 optin = !optin;
                 applyStyling(optin);
             }
-        } catch(error)
+        } catch (error) 
         {
             console.error("Error opting in/out:", error);
         }
@@ -59,31 +46,20 @@ document.addEventListener("DOMContentLoaded", () =>
 
 function updateValues(mini, minor, major, mega) 
 {
-    miniValueLabel.innerText = mini.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
-    minorValueLabel.innerText = minor.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
-    majorValueLabel.innerText = major.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
-    megaValueLabel.innerText = mega.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
+    elements.miniValueLabel.innerText = mini.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
+    elements.minorValueLabel.innerText = minor.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
+    elements.majorValueLabel.innerText = major.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
+    elements.megaValueLabel.innerText = mega.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
 }
 
 function applyStyling(bool) 
 {
-    if (bool) 
-    {
-        optButton.innerText = "opt out";
-        optinImage.src = "mjp-assets/mjp-opt-out-graphic.png";
-        optinBar.style.backgroundImage = "url(mjp-assets/mjp-opt-out-base.png)";
-        optinBar.style.alignItems = "end";
-        optinPanel.style.backgroundImage = "url(mjp-assets/mjp-opt-out-base.png)";
-        optinButtonImage.src = "mjp-assets/mjp-opt-out-text-en.png";
-    } else 
-    {
-        optButton.innerText = "opt in";
-        optinImage.src = "mjp-assets/mjp-opt-in-graphic.png";
-        optinBar.style.backgroundImage = "url(mjp-assets/mjp-opt-in-base.png)";
-        optinBar.style.alignItems = "start";
-        optinPanel.style.backgroundImage = "url(mjp-assets/mjp-opt-in-base.png)";
-        optinButtonImage.src = "mjp-assets/mjp-opt-in-text-en.png";
-    }
+    elements.optButton.innerText = bool ? "opt out" : "opt in";
+    elements.optinImage.src = bool ? "mjp-assets/mjp-opt-out-graphic.png" : "mjp-assets/mjp-opt-in-graphic.png";
+    elements.optinBar.style.backgroundImage = bool ? "url(mjp-assets/mjp-opt-out-base.png)" : "url(mjp-assets/mjp-opt-in-base.png)";
+    elements.optinBar.style.alignItems = bool ? "end" : "start";
+    elements.optinPanel.style.backgroundImage = bool ? "url(mjp-assets/mjp-opt-out-base.png)" : "url(mjp-assets/mjp-opt-in-base.png)";
+    elements.optinButtonImage.src = bool ? "mjp-assets/mjp-opt-out-text-en.png" : "mjp-assets/mjp-opt-in-text-en.png";
 }
 
 async function megaJackpot(config) 
@@ -97,10 +73,7 @@ async function megaJackpot(config)
         optin = json.player.optinstatus;
         applyStyling(optin);
 
-        let miniValue = json.jackpots.MINI_VALUE;
-        let minorValue = json.jackpots.MINOR_VALUE;
-        let majorValue = json.jackpots.MAJOR_VALUE;
-        let megaValue = json.jackpots.MEGA_VALUE;
+        let { MINI_VALUE: miniValue, MINOR_VALUE: minorValue, MAJOR_VALUE: majorValue, MEGA_VALUE: megaValue } = json.jackpots;
 
         updateValues(miniValue, minorValue, majorValue, megaValue);
 
@@ -113,7 +86,7 @@ async function megaJackpot(config)
             minorValue += json.jackpots.MINOR_VELOCITY;
             majorValue += json.jackpots.MAJOR_VELOCITY;
             megaValue += json.jackpots.MEGA_VELOCITY;
-            
+
             updateValues(miniValue, minorValue, majorValue, megaValue);
         }, 1000);
     } catch (error) 
