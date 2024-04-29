@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css"/>
+        <script src="megajackpot-dev.js"></script>
+        <script>
+            var megajackpotConfig = 
+            {
+                endpoint: 'https://vip-test-nl.reelsoft.net/megajackpot',
+                currency: { "code": "USD", "prefix": "$", "suffix": "", "grouping": ",", "decimal":".", "precision":1 },
+                operator: 'VISIONLINKTEST',
+                brand: '',
+                player: 'DEMO-USD',
+                language: 'en',
+                hash: 'a83df3f6b9b0c722f6f387dac82ef83015e56b20a87ee1dda289d527cb7d470e'
+            };
+
+            megaJackpot(megajackpotConfig);
+        </script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <main id="main">
+            <h1>Demo</h1>
+        </main>
+        <div id="vision-megajackpot-bar"></div>
+    </body>
+</html>
