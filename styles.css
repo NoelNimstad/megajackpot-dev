@@ -1,0 +1,268 @@
+/* body */
+body 
+{
+    /* colour */
+    background-color: black;
+
+    /* positioning */
+    margin: 0;
+
+    /* font */
+    font-family: sans-serif;
+
+    /* sizing */
+    height: 100dvh;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* main content */
+main 
+{
+    /* sizing */
+    width: 100%;
+    height: calc(100% - 35px);
+
+    /* colour */
+    background-color: rgb(100, 100, 100);
+
+    /* transition */
+    transition: 0.1s ease;
+
+    /* Demo Text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(80, 80, 80);
+    font-size: larger;
+}
+
+/* bottom bar */
+section.optin-bar
+{
+    /* sizing */
+    height: 35px;
+    width: 100%;
+    max-width: 100vw;
+
+    /* positioning */
+    z-index: 2;
+    position: relative;
+
+    /* child positioning */
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+
+    /* font */
+    font-family: sans-serif;
+
+    /* effect */
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* left-side image */
+img.image
+{
+    min-width: 0;
+    min-height: 0;
+    max-height: 35px;
+    object-fit: contain;
+}
+
+/* jackpot ammounts container */
+section.data 
+{
+    /* sizing */
+    width: fit-content;
+    height: 35px;
+    padding-left: 10px;
+
+    /* colour */
+    color: white;
+
+    /* animation */
+    animation: up 10s cubic-bezier(.9,0,.1,1) infinite;
+}
+
+/* jackpot ammount texts */
+div.jackpot
+{
+    /* sizing */
+    min-width: max-content;
+    width: 100%;
+    height: 100%;
+
+    /* text positioning */
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* font size */
+    font-size: 1rem;
+}
+div.jackpot > b 
+{
+    /* positioning */
+    margin-right: 5px;
+}
+
+/* MINOR jackpot text */
+div.jackpot.mini
+{
+    /* animation */
+    animation: mini-up 10s cubic-bezier(.9,0,.1,1) infinite;
+}
+
+/* opt in button */
+button.optin
+{
+    /* background */
+    background: none;
+
+    /* child positioning */
+    display: flex;
+    align-items: center;
+
+    /* sizing */
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    padding: 0 10px;
+
+    /* font */
+    font-weight: bold;
+
+    /* effect */
+    cursor: pointer;
+}
+button.optin.active 
+{
+    /* colour */
+    background-color: orange;
+}
+
+button.optin > img 
+{
+    height: 13px;
+}
+
+section.optin-panel
+{
+    z-index: 1;
+    width: 100%;
+    height: 500px;
+    background-image: url("mjp-assets/mjp-opt-in-base.png");
+    position: absolute;
+    bottom: -500px;
+    border-radius: 5px;
+    transition: 0.4s ease;
+    max-width: 750px;
+    right: 0;
+}
+
+div.center 
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.logo
+{
+    margin-top: 5px;
+    width: 100px;
+    height: 50px;
+    background-color: orange;
+}
+
+div.text 
+{
+    color: white;
+    text-align: center;
+    padding: 0 10px;
+    width: 90%;
+}
+
+div.text > p 
+{
+    margin-top: -0.05rem;
+    font-size: 0.8rem;
+    max-height: 250px;
+    overflow: scroll;
+}
+
+img.info-icon
+{
+    margin-right: 5px;
+}
+
+h2.title
+{
+    margin-bottom: 0.8rem;
+}
+
+/* --- ANIMATION --- */
+@keyframes up 
+{
+    0%
+    {
+        transform: translateY(0px);
+    }    
+
+    25%
+    {
+        transform: translateY(-35px);
+    }
+
+    50%
+    {
+        transform: translateY(-70px);
+    }
+
+    75%
+    {
+        transform: translateY(-105px);
+    }
+
+    100%
+    {
+        transform: translateY(-140px);
+    }
+}
+
+@keyframes mini-up
+{
+    0%
+    {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+
+    50%
+    {
+        transform: translateY(0px);
+    }
+
+    51%
+    {
+        opacity: 0;
+    }
+
+    60%
+    {
+        opacity: 0;
+        transform: translateY(140px);
+    }
+
+    61%
+    {
+        opacity: 1;
+    }
+
+    100%
+    {
+        transform: translateY(140px);
+    }
+}
