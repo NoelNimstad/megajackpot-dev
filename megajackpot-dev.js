@@ -33,6 +33,7 @@ const megajackpot =
         megaJackpotBar.style.overflow = "hidden";
         megaJackpotBar.style.fontFamily = "sans-serif";
         megaJackpotBar.style.boxShadow = "0 0 10px 0 rgba(0, 0, 0, 0.4)";
+        megaJackpotBar.style.fontSize = "16px";
 
         megajackpot.elements.optinBar = megaJackpotBar;
 
@@ -79,7 +80,7 @@ const megajackpot =
         miniJackpotLabel.style.display = minorJackpotLabel.style.display = majorJackpotLabel.style.display = megaJackpotLabel.style.display = "flex";
         miniJackpotLabel.style.alignItems = minorJackpotLabel.style.alignItems = majorJackpotLabel.style.alignItems = megaJackpotLabel.style.alignItems = "center";
         miniJackpotLabel.style.justifyContent = minorJackpotLabel.style.justifyContent = majorJackpotLabel.style.justifyContent = megaJackpotLabel.style.justifyContent = "center";
-        miniJackpotLabel.style.fontSize = minorJackpotLabel.style.fontSize = majorJackpotLabel.style.fontSize = megaJackpotLabel.style.fontSize = "1rem";
+        miniJackpotLabel.style.fontSize = minorJackpotLabel.style.fontSize = majorJackpotLabel.style.fontSize = megaJackpotLabel.style.fontSize = "16px";
 
         dataSection.appendChild(miniJackpotLabel);
         dataSection.appendChild(minorJackpotLabel);
