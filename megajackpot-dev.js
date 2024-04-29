@@ -2,6 +2,7 @@ const megajackpot =
 {
     elements: {},
     optin: false,
+    config: {},
 
     updateValues: function(mini, minor, major, mega) 
     {
@@ -21,7 +22,7 @@ const megajackpot =
 
     constructMegaJackpotBar: function()
     {
-        const megaJackpotBar = document.getElementById("vision-megajackpot-bar");
+        const megaJackpotBar = document.getElementById(config.elementBar);
         megaJackpotBar.style.height = "35px";
         megaJackpotBar.style.width = "100%";
         megaJackpotBar.style.maxWidth = "100vw";
@@ -191,8 +192,9 @@ const megajackpot =
         }
     },
 
-    init: async function(config) 
+    init: async function(configArg) 
     {
+        config = configArg;
         try 
         {
             const url = config.endpoint + "/feed/jackpotdata?operator=" + config.operator + "&player=" + config.player + "&hash=" + config.hash;
