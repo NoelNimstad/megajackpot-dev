@@ -162,7 +162,36 @@ const megajackpot =
         megajackpot.elements.optinButtonImage = optInOutButtonLabelImage;
     },
 
-    fetchNewData: async function()
+    fetchNewJackpotData: async function()
+    {
+        try 
+        {
+            const url = config.endpoint + "/feed/jackpotdata?operator=" + config.operator + "&player=" + config.player + "&hash=" + config.hash;
+            const response = await fetch(url);
+            const json = await response.json();
+
+            let { MINI_VALUE: miniValue, MINOR_VALUE: minorValue, MAJOR_VALUE: majorValue, MEGA_VALUE: megaValue } = json.jackpots;
+            megajackpot.updateValues(miniValue, minorValue, majorValue, megaValue);
+
+            let i = 0;
+            const interval = setInterval(() => 
+            {
+                if (++i > 14) clearInterval(interval);
+
+                miniValue += json.jackpots.MINI_VELOCITY;
+                minorValue += json.jackpots.MINOR_VELOCITY;
+                majorValue += json.jackpots.MAJOR_VELOCITY;
+                megaValue += json.jackpots.MEGA_VELOCITY;
+
+                megajackpot.updateValues(miniValue, minorValue, majorValue, megaValue);
+            }, 1000);
+        } catch (error) 
+        {
+            console.error("Error fetching jackpot data:", error);
+        }
+    },
+
+    init: async function(config) 
     {
         try 
         {
@@ -210,14 +239,10 @@ const megajackpot =
         {
             console.error("Error fetching jackpot data:", error);
         }
-    },
-
-    init: function(config) 
-    {
-        megajackpot.fetchNewData();
+        
         setInterval(() => 
         {
-            megajackpot.fetchNewData();
+            megajackpot.fetchNewJackpotData(config);
         }, 15000); 
     }
 }
