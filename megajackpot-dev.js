@@ -14,10 +14,10 @@ const megajackpot =
 
     applyStyling: function(bool) 
     {
-        megajackpot.elements.optinImage.src = bool ? "mjp-assets/mjp-opt-out-graphic.png" : "mjp-assets/mjp-opt-in-graphic.png";
-        megajackpot.elements.optinBar.style.backgroundImage = bool ? "url(mjp-assets/mjp-opt-out-base.png)" : "url(mjp-assets/mjp-opt-in-base.png)";
+        megajackpot.elements.optinImage.src = bool ? config.imageUrl + "/mjp-assets/mjp-opt-out-graphic.png" : config.imageUrl + "/mjp-assets/mjp-opt-in-graphic.png";
+        megajackpot.elements.optinBar.style.backgroundImage = bool ? "url(" + config.imageUrl + "/mjp-assets/mjp-opt-out-base.png)" : "url(" + config.imageUrl + "/mjp-assets/mjp-opt-in-base.png)";
         megajackpot.elements.optinBar.style.alignItems = bool ? "end" : "start";
-        megajackpot.elements.optinButtonImage.src = bool ? "mjp-assets/mjp-opt-out-text-en.png" : "mjp-assets/mjp-opt-in-text-en.png";
+        megajackpot.elements.optinButtonImage.src = bool ? config.imageUrl + "/mjp-assets/mjp-opt-out-text-en.png" : config.imageUrl + "/mjp-assets/mjp-opt-in-text-en.png";
     },
 
     constructMegaJackpotBar: function()
@@ -149,7 +149,7 @@ const megajackpot =
         megaJackpotBar.appendChild(optInOutButton);
 
         const optInOutButtonInfoIcon = document.createElement("img");
-        optInOutButtonInfoIcon.src = "mjp-assets/mjp-info-icon.png";
+        optInOutButtonInfoIcon.src = config.imageUrl + "/mjp-assets/mjp-info-icon.png";
         optInOutButtonInfoIcon.style.marginRight = "5px";
         optInOutButtonInfoIcon.style.height = "13px";
 
