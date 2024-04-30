@@ -3,13 +3,64 @@ const megajackpot =
     elements: {},
     optin: false,
     config: {},
+    currencyPrefix: "",
+    currencySuffix: "",
+
+    currencyFormatter: function(number, prefix, suffix, grouping, decimal, precision) 
+    {
+        const p2l = 
+        {
+            1: 0,
+            100: 2,
+            100000: 5
+        };
+        const isNegative = number < 0;
+        const internalNumber = Math.abs(number).toString();
+        const showKilo = (precision === 100000 && internalNumber.length >= 6);
+        const prec = showKilo ? p2l[precision] : 2;
+        const str = internalNumber.substring(0, internalNumber.length - prec);
+        const decimals = internalNumber.substr(internalNumber.length - prec, 2);
+        let i = str.length;
+        let result = '';
+        while ((i -= 3) > 0) 
+        {
+            result = `${grouping}${str.substr(i, 3)}${result}`;
+        }
+        return `${ isNegative ? '-' : '' }${ prefix }${ str.substr(0, i + 3) }${ result }${ decimals === '00' ? '' : decimal + decimals }${ showKilo ? 'k' : '' }${ suffix }`;
+    },
+
+    unicodeToChar: function(text) 
+    {
+        return text.replace(/\\u([\dA-F]{4})/gi, (_, charCode) => String.fromCharCode(parseInt(charCode, 16)));
+    },
+    
+    /*
+    
+    console.log(currencyFormatter(balance, currency.prefix, currency.suffix, currency.grouping, currency.decimal, currency.precision));
+    
+    console.assert(currencyFormatter(12345600000, "$", "", ",", ".", 1) === "$123,456,000", "$123,456,000");
+    console.assert(currencyFormatter(12345600000, "€", "", ",", ".", 1) === "€123,456,000", "€123,456,000");
+    console.assert(currencyFormatter(12345600789, "€", "", ",", ".", 1) === "€123,456,007.89", "€123,456,007.89");
+    console.assert(currencyFormatter(12345600000, "", "kr", ",", ".", 100) === "123,456,000kr", "123,456,000kr");
+    console.assert(currencyFormatter(12345600000, "", "D", ",", ".", 100000) === "123,456kD", "123,456kD");
+    console.assert(currencyFormatter(12345600789, "", "D", ",", ".", 100000) === "123,456kD", "123,456kD");
+    
+    console.assert(currencyFormatter(-12345600000, "$", "", ",", ".", 1) === "-$123,456,000", "-$123,456,000");
+    console.assert(currencyFormatter(-12345600000, "€", "", ",", ".", 1) === "-€123,456,000", "-€123,456,000");
+    console.assert(currencyFormatter(-12345600000, "", "kr", ",", ".", 100) === "-123,456,000kr", "-123,456,000kr");
+    console.assert(currencyFormatter(-12345600000, "", "D", ",", ".", 100000) === "-123,456kD", "-123,456kD");
+    console.assert(currencyFormatter(53658718, "V", "", ",", ".", 100000) === "V536.58k", "V536.58k");
+    
+    console.assert(currencyFormatter(123456789, "$", "", ",", ".", 1) === "$1,234,567.89", "$1,234,567.89");
+    
+    */    
 
     updateValues: function(mini, minor, major, mega) 
     {
-        megajackpot.elements.miniValueLabel.innerText = mini.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
-        megajackpot.elements.minorValueLabel.innerText = minor.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
-        megajackpot.elements.majorValueLabel.innerText = major.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
-        megajackpot.elements.megaValueLabel.innerText = mega.toLocaleString("ja-JP", { style: "currency", currency: "JPY" });
+        megajackpot.elements.miniValueLabel.innerText = megajackpot.currencyFormatter(mini, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currency.grouping, megajackpot.config.currency.decimal, megajackpot.config.currency.precision);
+        megajackpot.elements.minorValueLabel.innerText = megajackpot.currencyFormatter(minor, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currency.grouping, megajackpot.config.currency.decimal, megajackpot.config.currency.precision);
+        megajackpot.elements.majorValueLabel.innerText = megajackpot.currencyFormatter(major, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currency.grouping, megajackpot.config.currency.decimal, megajackpot.config.currency.precision);
+        megajackpot.elements.megaValueLabel.innerText = megajackpot.currencyFormatter(mega, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currency.grouping, megajackpot.config.currency.decimal, megajackpot.config.currency.precision);
     },
 
     applyStyling: function(bool) 
@@ -73,7 +124,6 @@ const megajackpot =
         const minorJackpotLabel = document.createElement("div");
         const majorJackpotLabel = document.createElement("div");
         const megaJackpotLabel = document.createElement("div");
-        miniJackpotLabel.style.maxWidth = minorJackpotLabel.style.maxWidth = majorJackpotLabel.style.maxWidth = megaJackpotLabel.style.maxWidth = "max-content";
         miniJackpotLabel.style.width = minorJackpotLabel.style.width = majorJackpotLabel.style.width = megaJackpotLabel.style.width = "100%";
         miniJackpotLabel.style.height = minorJackpotLabel.style.height = majorJackpotLabel.style.height = megaJackpotLabel.style.height = "100%";
         miniJackpotLabel.style.textAlign = minorJackpotLabel.style.textAlign = majorJackpotLabel.style.textAlign = megaJackpotLabel.style.textAlign = "center";
@@ -195,12 +245,15 @@ const megajackpot =
 
     init: async function(configArg) 
     {
-        config = configArg;
+        megajackpot.config = configArg;
         try 
         {
             const url = config.endpoint + "/feed/jackpotdata?operator=" + config.operator + "&player=" + config.player + "&hash=" + config.hash;
             const response = await fetch(url);
             const json = await response.json();
+
+            megajackpot.currencyPrefix = megajackpot.unicodeToChar(config.currency.prefix);
+            megajackpot.currencySuffix = megajackpot.unicodeToChar(config.currency.suffix);
 
             optin = json.player.optinstatus;
             megajackpot.constructMegaJackpotBar();
