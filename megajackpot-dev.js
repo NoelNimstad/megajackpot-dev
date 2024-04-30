@@ -65,15 +65,15 @@ const megajackpot =
 
     applyStyling: function(bool) 
     {
-        megajackpot.elements.optinImage.src = bool ? config.imageUrl + "/mjp-assets/mjp-opt-out-graphic.png" : config.imageUrl + "/mjp-assets/mjp-opt-in-graphic.png";
-        megajackpot.elements.optinBar.style.backgroundImage = bool ? "url(" + config.imageUrl + "/mjp-assets/mjp-opt-out-base.png)" : "url(" + config.imageUrl + "/mjp-assets/mjp-opt-in-base.png)";
+        megajackpot.elements.optinImage.src = bool ? megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-out-graphic.png" : megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-in-graphic.png";
+        megajackpot.elements.optinBar.style.backgroundImage = bool ? "url(" + megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-out-base.png)" : "url(" + megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-in-base.png)";
         megajackpot.elements.optinBar.style.alignItems = bool ? "end" : "start";
-        megajackpot.elements.optinButtonImage.src = bool ? config.imageUrl + "/mjp-assets/mjp-opt-out-text-en.png" : config.imageUrl + "/mjp-assets/mjp-opt-in-text-en.png";
+        megajackpot.elements.optinButtonImage.src = bool ? megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-out-text-en.png" : megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-in-text-en.png";
     },
 
     constructMegaJackpotBar: function()
     {
-        const megaJackpotBar = document.getElementById(config.elementBar);
+        const megaJackpotBar = document.getElementById(megajackpot.config.elementBar);
         megaJackpotBar.style.height = "35px";
         megaJackpotBar.style.width = "100%";
         megaJackpotBar.style.maxWidth = "100vw";
@@ -200,7 +200,7 @@ const megajackpot =
         megaJackpotBar.appendChild(optInOutButton);
 
         const optInOutButtonInfoIcon = document.createElement("img");
-        optInOutButtonInfoIcon.src = config.imageUrl + "/mjp-assets/mjp-info-icon.png";
+        optInOutButtonInfoIcon.src = megajackpot.config.imageUrl + "/mjp-assets/mjp-info-icon.png";
         optInOutButtonInfoIcon.style.marginRight = "5px";
         optInOutButtonInfoIcon.style.height = "13px";
 
@@ -218,7 +218,7 @@ const megajackpot =
     {
         try 
         {
-            const url = config.endpoint + "/feed/jackpotdata?operator=" + config.operator + "&player=" + config.player + "&hash=" + config.hash;
+            const url = megajackpot.config.endpoint + "/feed/jackpotdata?operator=" + megajackpot.config.operator + "&player=" + megajackpot.config.player + "&hash=" + megajackpot.config.hash;
             const response = await fetch(url);
             const json = await response.json();
 
@@ -248,12 +248,12 @@ const megajackpot =
         megajackpot.config = configArg;
         try 
         {
-            const url = config.endpoint + "/feed/jackpotdata?operator=" + config.operator + "&player=" + config.player + "&hash=" + config.hash;
+            const url = megajackpot.config.endpoint + "/feed/jackpotdata?operator=" + megajackpot.config.operator + "&player=" + megajackpot.config.player + "&hash=" + megajackpot.config.hash;
             const response = await fetch(url);
             const json = await response.json();
 
-            megajackpot.currencyPrefix = megajackpot.unicodeToChar(config.currency.prefix);
-            megajackpot.currencySuffix = megajackpot.unicodeToChar(config.currency.suffix);
+            megajackpot.currencyPrefix = megajackpot.unicodeToChar(megajackpot.config.currency.prefix);
+            megajackpot.currencySuffix = megajackpot.unicodeToChar(megajackpot.config.currency.suffix);
 
             optin = json.player.optinstatus;
             megajackpot.constructMegaJackpotBar();
@@ -261,7 +261,7 @@ const megajackpot =
 
             megajackpot.elements.optinButton.addEventListener("click", async () => 
             {
-                const url = config.endpoint + (optin ? "/api/optout?operator=" : "/api/optin?operator=") + config.operator + "&player=" + config.player + "&hash=" + config.hash;
+                const url = megajackpot.config.endpoint + (optin ? "/api/optout?operator=" : "/api/optin?operator=") + megajackpot.config.operator + "&player=" + megajackpot.config.player + "&hash=" + megajackpot.config.hash;
                 try 
                 {
                     const response = await fetch(url);
