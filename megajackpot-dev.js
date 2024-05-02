@@ -65,10 +65,10 @@ const megajackpot =
 
     applyStyling: function(bool) 
     {
-        megajackpot.elements.optinImage.src = bool ? megajackpot.config.imageUrl + "/mjp-opt-out-graphic.png" : megajackpot.config.imageUrl + "/mjp-opt-in-graphic.png";
-        megajackpot.elements.optinBar.style.backgroundImage = bool ? "url(" + megajackpot.config.imageUrl + "/mjp-opt-out-base.png)" : "url(" + megajackpot.config.imageUrl + "/mjp-opt-in-base.png)";
+        megajackpot.elements.optinImage.src = bool ? megajackpot.config.assetsUrl + "/mjp-opt-out-graphic.png" : megajackpot.config.assetsUrl + "/mjp-opt-in-graphic.png";
+        megajackpot.elements.optinBar.style.backgroundImage = bool ? "url(" + megajackpot.config.assetsUrl + "/mjp-opt-out-base.png)" : "url(" + megajackpot.config.assetsUrl + "/mjp-opt-in-base.png)";
         megajackpot.elements.optinBar.style.alignItems = bool ? "end" : "start";
-        megajackpot.elements.optinButtonImage.src = bool ? megajackpot.config.imageUrl + "/mjp-opt-out-text-en.png" : megajackpot.config.imageUrl + "/mjp-opt-in-text-en.png";
+        megajackpot.elements.optinButtonImage.src = bool ? megajackpot.config.assetsUrl + "/mjp-opt-out-text-en.png" : megajackpot.config.assetsUrl + "/mjp-opt-in-text-en.png";
     },
 
     constructMegaJackpotBar: function()
@@ -202,7 +202,7 @@ const megajackpot =
         megaJackpotBar.appendChild(optInOutButton);
 
         const optInOutButtonInfoIcon = document.createElement("img");
-        optInOutButtonInfoIcon.src = megajackpot.config.imageUrl + "/mjp-info-icon.png";
+        optInOutButtonInfoIcon.src = megajackpot.config.assetsUrl + "/mjp-info-icon.png";
         optInOutButtonInfoIcon.style.marginRight = "5px";
         optInOutButtonInfoIcon.style.height = "13px";
 
