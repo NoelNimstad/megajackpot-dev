@@ -57,28 +57,29 @@ const megajackpot =
 
     updateValues: function(mini, minor, major, mega) 
     {
-        megajackpot.elements.miniValueLabel.innerText = megajackpot.currencyFormatter(mini, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currency.grouping, megajackpot.config.currency.decimal, megajackpot.config.currency.precision);
-        megajackpot.elements.minorValueLabel.innerText = megajackpot.currencyFormatter(minor, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currency.grouping, megajackpot.config.currency.decimal, megajackpot.config.currency.precision);
-        megajackpot.elements.majorValueLabel.innerText = megajackpot.currencyFormatter(major, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currency.grouping, megajackpot.config.currency.decimal, megajackpot.config.currency.precision);
-        megajackpot.elements.megaValueLabel.innerText = megajackpot.currencyFormatter(mega, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currency.grouping, megajackpot.config.currency.decimal, megajackpot.config.currency.precision);
+        megajackpot.elements.miniValueLabel.innerText = megajackpot.currencyFormatter(mini, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currencyDetails.grouping, megajackpot.config.currencyDetails.decimal, megajackpot.config.currencyDetails.precision);
+        megajackpot.elements.minorValueLabel.innerText = megajackpot.currencyFormatter(minor, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currencyDetails.grouping, megajackpot.config.currencyDetails.decimal, megajackpot.config.currencyDetails.precision);
+        megajackpot.elements.majorValueLabel.innerText = megajackpot.currencyFormatter(major, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currencyDetails.grouping, megajackpot.config.currencyDetails.decimal, megajackpot.config.currencyDetails.precision);
+        megajackpot.elements.megaValueLabel.innerText = megajackpot.currencyFormatter(mega, megajackpot.currencyPrefix, megajackpot.currencySuffix, megajackpot.config.currencyDetails.grouping, megajackpot.config.currencyDetails.decimal, megajackpot.config.currencyDetails.precision);
     },
 
     applyStyling: function(bool) 
     {
-        megajackpot.elements.optinImage.src = bool ? megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-out-graphic.png" : megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-in-graphic.png";
-        megajackpot.elements.optinBar.style.backgroundImage = bool ? "url(" + megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-out-base.png)" : "url(" + megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-in-base.png)";
+        megajackpot.elements.optinImage.src = bool ? megajackpot.config.imageUrl + "/mjp-opt-out-graphic.png" : megajackpot.config.imageUrl + "/mjp-opt-in-graphic.png";
+        megajackpot.elements.optinBar.style.backgroundImage = bool ? "url(" + megajackpot.config.imageUrl + "/mjp-opt-out-base.png)" : "url(" + megajackpot.config.imageUrl + "/mjp-opt-in-base.png)";
         megajackpot.elements.optinBar.style.alignItems = bool ? "end" : "start";
-        megajackpot.elements.optinButtonImage.src = bool ? megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-out-text-en.png" : megajackpot.config.imageUrl + "/mjp-assets/mjp-opt-in-text-en.png";
+        megajackpot.elements.optinButtonImage.src = bool ? megajackpot.config.imageUrl + "/mjp-opt-out-text-en.png" : megajackpot.config.imageUrl + "/mjp-opt-in-text-en.png";
     },
 
     constructMegaJackpotBar: function()
     {
-        const megaJackpotBar = document.getElementById(megajackpot.config.elementBar);
+        const megaJackpotBar = document.createElement("div");
+        megaJackpotBar.style.position = "absolute";
+        megaJackpotBar.style.bottom = "0";
         megaJackpotBar.style.height = "35px";
         megaJackpotBar.style.width = "100%";
         megaJackpotBar.style.maxWidth = "100vw";
         megaJackpotBar.style.zIndex = 2;
-        megaJackpotBar.style.position = "relative";
         megaJackpotBar.style.display = "flex";
         megaJackpotBar.style.justifyContent = "space-between";
         megaJackpotBar.style.overflow = "hidden";
@@ -86,6 +87,7 @@ const megajackpot =
         megaJackpotBar.style.boxShadow = "0 0 10px 0 rgba(0, 0, 0, 0.4)";
         megaJackpotBar.style.fontSize = "16px";
 
+        megajackpot.config.containerElement.appendChild(megaJackpotBar);
         megajackpot.elements.optinBar = megaJackpotBar;
 
         const optGraphicImage = document.createElement("img");
@@ -200,7 +202,7 @@ const megajackpot =
         megaJackpotBar.appendChild(optInOutButton);
 
         const optInOutButtonInfoIcon = document.createElement("img");
-        optInOutButtonInfoIcon.src = megajackpot.config.imageUrl + "/mjp-assets/mjp-info-icon.png";
+        optInOutButtonInfoIcon.src = megajackpot.config.imageUrl + "/mjp-info-icon.png";
         optInOutButtonInfoIcon.style.marginRight = "5px";
         optInOutButtonInfoIcon.style.height = "13px";
 
@@ -218,7 +220,7 @@ const megajackpot =
     {
         try 
         {
-            const url = megajackpot.config.endpoint + "/feed/jackpotdata?operator=" + megajackpot.config.operator + "&player=" + megajackpot.config.player + "&hash=" + megajackpot.config.hash;
+            const url = megajackpot.config.apiUrl + "/feed/jackpotdata?operator=" + megajackpot.config.operator + "&player=" + megajackpot.config.player + "&hash=" + megajackpot.config.hash;
             const response = await fetch(url);
             const json = await response.json();
 
@@ -248,12 +250,12 @@ const megajackpot =
         megajackpot.config = configArg;
         try 
         {
-            const url = megajackpot.config.endpoint + "/feed/jackpotdata?operator=" + megajackpot.config.operator + "&player=" + megajackpot.config.player + "&hash=" + megajackpot.config.hash;
+            const url = megajackpot.config.apiUrl + "/feed/jackpotdata?operator=" + megajackpot.config.operator + "&player=" + megajackpot.config.player + "&hash=" + megajackpot.config.hash;
             const response = await fetch(url);
             const json = await response.json();
 
-            megajackpot.currencyPrefix = megajackpot.unicodeToChar(megajackpot.config.currency.prefix);
-            megajackpot.currencySuffix = megajackpot.unicodeToChar(megajackpot.config.currency.suffix);
+            megajackpot.currencyPrefix = megajackpot.unicodeToChar(megajackpot.config.currencyDetails.prefix);
+            megajackpot.currencySuffix = megajackpot.unicodeToChar(megajackpot.config.currencyDetails.suffix);
 
             optin = json.player.optinstatus;
             megajackpot.constructMegaJackpotBar();
@@ -261,7 +263,7 @@ const megajackpot =
 
             megajackpot.elements.optinButton.addEventListener("click", async () => 
             {
-                const url = megajackpot.config.endpoint + (optin ? "/api/optout?operator=" : "/api/optin?operator=") + megajackpot.config.operator + "&player=" + megajackpot.config.player + "&hash=" + megajackpot.config.hash;
+                const url = megajackpot.config.apiUrl + (optin ? "/api/optout?operator=" : "/api/optin?operator=") + megajackpot.config.operator + "&player=" + megajackpot.config.player + "&hash=" + megajackpot.config.hash;
                 try 
                 {
                     const response = await fetch(url);
